@@ -15,6 +15,7 @@
  */
 package com.example.unscramble.ui
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -120,6 +121,13 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
         }
 
         GameStatus(score = gameUiState.score, modifier = Modifier.padding(20.dp))
+
+        if (gameUiState.isGameOver) {
+            FinalScoreDialog(
+                score = gameUiState.score,
+                onPlayAgain = { gameViewModel.resetGame() }
+            )
+        }
     }
 }
 
@@ -208,6 +216,7 @@ fun GameLayout(onUserGuessChanged: (String) -> Unit ,
 /*
  * Creates and shows an AlertDialog with final score.
  */
+@SuppressLint("ContextCastToActivity")
 @Composable
 private fun FinalScoreDialog(
     score: Int,
@@ -241,6 +250,7 @@ private fun FinalScoreDialog(
         }
     )
 }
+
 
 @Preview(showBackground = true)
 @Composable
